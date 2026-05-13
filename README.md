@@ -109,6 +109,8 @@ This component differentiates between normal interview anxiety and suspicious be
 * Small Language Models (SLM)
 * Vector Embeddings
 * Event-Driven Architecture
+* FastAPI (web framework)
+* Uvicorn (ASGI server)
 
 ### Purpose
 
