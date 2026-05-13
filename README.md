@@ -71,10 +71,10 @@ This module evaluates technical skills by combining resume data and GitHub repos
 
 * Real-time webcam monitoring
 * Eye-gaze tracking
-* Head movement analysis
+* Deception level detection
 * Micro-expression detection
 * Cognitive load detection
-* Adaptive behavioral baseline generation
+* timestamp behavioural logs
 
 ### Technologies
 
