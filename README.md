@@ -6,7 +6,7 @@ An intelligent AI-driven recruitment platform designed to improve the fairness, 
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 Traditional recruitment systems mainly rely on keyword matching and manual interviews, which often fail to accurately evaluate a candidate’s true technical abilities, emotional state, and communication skills.
 
@@ -22,7 +22,7 @@ This research project focuses on:
 
 ---
 
-## 🎯 Main Objectives
+##  Main Objectives
 
 * Improve candidate evaluation accuracy using AI techniques
 * Reduce recruitment bias and unfair filtering
@@ -33,9 +33,9 @@ This research project focuses on:
 
 ---
 
-# 🧩 System Components
+#  System Components
 
-## 1️⃣ Skill Knowledge Graph & Competency Scoring Module
+## 1️ Skill Knowledge Graph & Competency Scoring Module
 
 **Researcher:** Mendis A.S.P – IT21191510 
 
@@ -63,7 +63,7 @@ This module evaluates technical skills by combining resume data and GitHub repos
 
 ---
 
-## 2️⃣ AI-Based Visual Behavior & Cognitive Load Detection Module
+## 2️ AI-Based Visual Behavior & Cognitive Load Detection Module
 
 **Researcher:** M N Kannangara – IT22894960 
 
@@ -90,7 +90,7 @@ This component differentiates between normal interview anxiety and suspicious be
 
 ---
 
-## 3️⃣ Adaptive AI Interviewer Module
+## 3️ Adaptive AI Interviewer Module
 
 **Researcher:** KANNANGARA P.M.K – IT22116888 
 
@@ -118,7 +118,7 @@ This module creates an intelligent interview experience that adapts question dif
 
 ---
 
-## 4️⃣ Accent-Invariant Audio Behavioral Analysis Module
+## 4️ Accent-Invariant Audio Behavioral Analysis Module
 
 **Researcher:** Nanayakkara N.H.R.M – IT22328748 
 
@@ -145,7 +145,7 @@ This component analyzes speech behavior fairly without penalizing candidates for
 
 ---
 
-# ⚙️ Core Technologies
+#  Core Technologies
 
 * Python
 * React.js
@@ -163,7 +163,7 @@ This component analyzes speech behavior fairly without penalizing candidates for
 
 ---
 
-# 🏗️ System Workflow
+#  System Workflow
 
 1. Candidate uploads resume and GitHub profile
 2. Resume parser extracts technical skills
@@ -176,7 +176,7 @@ This component analyzes speech behavior fairly without penalizing candidates for
 
 ---
 
-# 📊 Expected Outcomes
+#  Expected Outcomes
 
 * Fair and intelligent recruitment process
 * Reduced hiring bias
@@ -187,7 +187,7 @@ This component analyzes speech behavior fairly without penalizing candidates for
 
 ---
 
-# 🌍 Sustainable Development Goals (SDGs)
+#  Sustainable Development Goals (SDGs)
 
 This project supports:
 
@@ -196,7 +196,7 @@ This project supports:
 
 ---
 
-# 👨‍💻 Research Team
+#  Research Team
 
 | Name                | Student ID | Component                                  |
 | ------------------- | ---------- | ------------------------------------------ |
@@ -207,7 +207,7 @@ This project supports:
 
 ---
 
-# 🏫 Institution
+#  Institution
 
 **Sri Lanka Institute of Information Technology (SLIIT)**
 Department of Information Technology
@@ -215,12 +215,12 @@ B.Sc. (Hons) in Information Technology
 
 ---
 
-# 📌 Project Status
+#  Project Status
 
-🚧 Research & Development Phase
+ Research & Development Phase
 
 ---
 
-# 📄 License
+#  License
 
 This project is developed for academic and research purposes under SLIIT undergraduate research guidelines.
