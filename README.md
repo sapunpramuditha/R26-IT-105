@@ -35,7 +35,7 @@ This research project focuses on:
 
 #  System Components
 
-## 1️ Skill Knowledge Graph & Competency Scoring Module
+## 1️. Skill Knowledge Graph & Competency Scoring Module
 
 **Researcher:** Mendis A.S.P – IT21191510 
 
@@ -63,7 +63,7 @@ This module evaluates technical skills by combining resume data and GitHub repos
 
 ---
 
-## 2️ AI-Based Visual Behavior & Cognitive Load Detection Module
+## 2️. AI-Based Visual Behavior & Cognitive Load Detection Module
 
 **Researcher:** M N Kannangara – IT22894960 
 
@@ -90,7 +90,7 @@ This component differentiates between normal interview anxiety and suspicious be
 
 ---
 
-## 3️ Adaptive AI Interviewer Module
+## 3️. Adaptive AI Interviewer Module
 
 **Researcher:** KANNANGARA P.M.K – IT22116888 
 
@@ -118,7 +118,7 @@ This module creates an intelligent interview experience that adapts question dif
 
 ---
 
-## 4️ Accent-Invariant Audio Behavioral Analysis Module
+## 4️. Accent-Invariant Audio Behavioral Analysis Module
 
 **Researcher:** Nanayakkara N.H.R.M – IT22328748 
 
