@@ -11,6 +11,7 @@ const authRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const assessmentRoutes = require('./routes/assessmentRoutes');
 
 // Connect to database
 connectDB();
@@ -20,7 +21,7 @@ const app = express();
 const path = require('path');
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '2mb' }));
 app.use(cors());
 
 // Serve static files
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/assessments', assessmentRoutes);
 
 // Error handler middleware (basic)
 app.use((err, req, res, next) => {
