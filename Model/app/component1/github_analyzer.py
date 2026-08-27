@@ -14,6 +14,9 @@ Usage:
 
 import requests
 import time
+import base64
+import os
+import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import math
 from datetime import datetime, timezone
@@ -28,6 +31,19 @@ GITHUB_API   = "https://api.github.com"
 MAX_REPOS    = 100      # Max repos to analyse per user
 MAX_EVENTS   = 300      # Max events to fetch for activity scoring
 REQUEST_DELAY = 0.5     # Seconds between API calls (stay well under rate limit)
+
+TECHNOLOGY_TERMS = {
+    "react": "React", "reactjs": "React", "react.js": "React",
+    "angular": "Angular", "vue": "Vue", "nextjs": "Next.js", "next.js": "Next.js",
+    "nodejs": "Node.js", "node.js": "Node.js", "express": "Express",
+    "mongodb": "MongoDB", "postgresql": "PostgreSQL", "postgres": "PostgreSQL",
+    "mysql": "MySQL", "redis": "Redis", "firebase": "Firebase",
+    "aws": "AWS", "azure": "Azure", "gcp": "GCP",
+    "docker": "Docker", "kubernetes": "Kubernetes", "terraform": "Terraform",
+    "django": "Django", "flask": "Flask", "fastapi": "FastAPI",
+    "spring": "Spring", "tensorflow": "TensorFlow", "pytorch": "PyTorch",
+    "scikit-learn": "scikit-learn", "graphql": "GraphQL", "laravel": "Laravel",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +96,9 @@ class GitHubAnalyzer:
         # Step 3 — extract language breakdown
         languages = self._extract_languages(repos)
 
+        # Technologies are inferred only from repository evidence, not the GNN.
+        technology_evidence = self._extract_technology_evidence(repos, languages)
+
         # Step 4 — extract activity signals
         activity  = self._extract_activity(username, repos)
 
@@ -97,6 +116,8 @@ class GitHubAnalyzer:
             "followers":              profile.get("followers", 0),
             "activity_score":         round(score, 2),
             "languages":              languages,
+            "detected_skills":        sorted(technology_evidence.keys()),
+            "technology_evidence":    technology_evidence,
             "top_language":           max(languages, key=languages.get) if languages else None,
             "original_repos":         activity["original_repos"],
             "forked_repos":           activity["forked_repos"],
@@ -194,6 +215,53 @@ class GitHubAnalyzer:
             lang: round(100 * count / total, 1)
             for lang, count in sorted_langs[:10]
         }
+
+    def _extract_technology_evidence(self, repos: list[dict], languages: dict) -> dict:
+        """Collect explainable technology evidence from languages and repo metadata/READMEs."""
+        evidence = defaultdict(set)
+        for language in languages:
+            evidence[language].add("GitHub language analysis")
+
+        original = [repo for repo in repos if not repo.get("fork", False)][:20]
+
+        for repo in original:
+            repo_name = repo.get("name") or "repository"
+            metadata_parts = [repo.get("name"), repo.get("description")]
+            metadata_parts.extend(repo.get("topics") or [])
+            metadata_parts = [str(part) for part in metadata_parts if part is not None]
+            self._match_technology_terms(" ".join(metadata_parts), f"{repo_name}: metadata/topics", evidence)
+
+        def fetch_readme(repo):
+            owner = repo.get("owner", {}).get("login")
+            name = repo.get("name")
+            if not owner or not name:
+                return name or "repository", ""
+            response = self._get(f"{GITHUB_API}/repos/{owner}/{name}/readme")
+            if not response or response.status_code != 200:
+                return name, ""
+            payload = response.json()
+            try:
+                return name, base64.b64decode(payload.get("content", "")).decode("utf-8", errors="ignore")
+            except (ValueError, TypeError):
+                return name, ""
+
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            futures = [executor.submit(fetch_readme, repo) for repo in original[:15]]
+            for future in as_completed(futures):
+                try:
+                    repo_name, readme = future.result()
+                    self._match_technology_terms(readme, f"{repo_name}: README", evidence)
+                except Exception:
+                    pass
+
+        return {skill: sorted(sources) for skill, sources in sorted(evidence.items())}
+
+    @staticmethod
+    def _match_technology_terms(text: str, source: str, evidence: dict):
+        normalized = str(text or "").lower()
+        for term, canonical in TECHNOLOGY_TERMS.items():
+            if re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", normalized):
+                evidence[canonical].add(source)
 
     # -----------------------------------------------------------------------
     # Step 4 — Activity signals
@@ -511,6 +579,8 @@ class GitHubAnalyzer:
             "error":                reason,
             "activity_score":       0.0,
             "languages":            {},
+            "detected_skills":      [],
+            "technology_evidence":  {},
             "top_language":         None,
             "original_repos":       0,
             "total_stars":          0,
@@ -527,7 +597,9 @@ class GitHubAnalyzer:
 if __name__ == "__main__":
     import json
 
-    GITHUB_TOKEN = "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"   # Replace with your token
+    GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+    if not GITHUB_TOKEN:
+        raise SystemExit("Set GITHUB_TOKEN before running this test.")
 
     analyzer = GitHubAnalyzer(token=GITHUB_TOKEN)
 
