@@ -1,0 +1,55 @@
+# interview_ai — runtime dependencies
+#
+#   python3 -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# Python 3.12 or lower is required (3.13 has no wheels for parts of this stack).
+# For the exact versions these results were produced with, use
+# requirements-lock.txt instead.
+
+# --- inference (needed to RUN the model) ------------------------------------
+ultralytics>=8.4.121        # YOLO26 needs >=8.4.0; >=8.4.121 for current fixes
+                            # NOTE: AGPL-3.0 — see LICENSING in README.md
+torch>=2.5,<2.9
+torchvision>=0.20
+opencv-python>=4.10
+numpy<2                     # 2.x breaks several pinned wheels in this stack
+pyyaml>=6.0
+tqdm>=4.66
+psutil>=5.9
+
+# --- browser app (app.py) ---
+streamlit>=1.38
+
+# --- real-world fallback geometry (src/mesh_regions.py) ---------------------
+# The SAMM-trained detector finds no iris on ordinary webcam footage, so the
+# pipeline falls back to FaceLandmarker for all 13 regions. Constrained to
+# the numpy<2 pin above: mediapipe's own resolve would pull numpy 2.x and break
+# the pinned wheels in this stack. The .task model is vendored in models/ so
+# it stays offline.
+mediapipe>=1.0
+
+# --- HTTP API (src/api/, for integration by other modules) ------------------
+# Only needed to serve the API; main.py and app.py do not import it.
+flask>=3.0
+# Vendors the Swagger UI assets inside the package (~2.3 MB) instead of
+# pulling them from a CDN, so /docs works on an air-gapped deployment.
+flask-swagger-ui>=4.11
+
+# --- CPU acceleration -------------------------------------------------------
+# Without these the CPU path falls back to PyTorch: ~21 fps instead of ~33 fps,
+# i.e. below the 30 fps budget. Install them for any non-GPU deployment.
+openvino>=2024.0
+onnx>=1.16
+onnxruntime>=1.18
+onnxslim>=0.1.30
+
+# --- evaluation and retraining only -----------------------------------------
+# Not needed to run inference. Required by evaluate_*.py, make_splits.py and
+# build_dataset.py.
+pandas>=2.2
+scikit-learn>=1.4
+scipy>=1.11
+openpyxl>=3.1              # reads the corpus annotation spreadsheet
+matplotlib>=3.8
+seaborn>=0.13

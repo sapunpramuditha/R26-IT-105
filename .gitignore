@@ -1,0 +1,35 @@
+# NOTE: .gitignore does not support trailing comments — anything after a
+# pattern on the same line becomes part of the pattern and silently matches
+# nothing. Every comment here is therefore on its own line.
+
+# Regenerable intermediates, all rebuilt by the commands in README.md.
+# symlinks into the corpus + generated label files
+artifacts/dataset/
+# training runs: checkpoints, curves, plots
+artifacts/runs/
+# cached detector output over the corpus
+artifacts/cache/
+# stdout of long-running jobs
+artifacts/logs/
+# upstream YOLO checkpoints, re-downloaded on first use
+artifacts/pretrained/
+
+# Per-session outputs. One example log is kept and committed deliberately.
+reports/behavioural_log_*.json
+!reports/example_behavioural_log.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# The repo root ignores *.jpg / *.png to keep the image corpus out. The sample
+# inference outputs in reports/ are deliverables, so re-include just those.
+!reports/*.jpg
+!reports/*.png
+
